@@ -62,11 +62,11 @@ class UserResource extends Resource
                     ->searchable(),
 
                 TextColumn::make('email_verified_at')
-                    ->datetime()
+                    ->datetime('d/m/Y')
                     ->sortable(),
 
                 TextColumn::make('created_at')
-                    ->datetime('d m Y')
+                    ->datetime('d/m/Y')
                     ->sortable(),
 
             ])
