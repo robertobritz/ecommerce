@@ -29,8 +29,7 @@ class CartManagement {
                 $cart_items[]=[
                     'product_id' => $product->id,
                     'name' => $product->name,
-                    'images' => $product->images[0],
-                    'price' => $product->price,
+                    'image' => $product->images, //tinha indice [0] em images
                     'quantity' => 1,
                     'unit_amount' => $product->price,
                     'total_amount' => $product->price,
