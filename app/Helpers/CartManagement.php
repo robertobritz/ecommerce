@@ -64,10 +64,10 @@ class CartManagement {
                 $cart_items[]=[
                     'product_id' => $product->id,
                     'name' => $product->name,
-                    'image' => $product->images, //tinha indice [0] em images
+                    'image' => $product->images[0], //tinha indice [0] em images
                     'quantity' => $qty,
                     'unit_amount' => $product->price,
-                    'total_amount' => $product->price,
+                    'total_amount' => $product->price * $qty,
                 ];
             }
         }
