@@ -14,9 +14,6 @@
                         <img src="{{ url('storage', $image) }}" alt="{{ $product->name}}" class="object-cover w-full cursor-pointer lg:h-20 hover:border hover:border-blue-500">
                     </div>
                 @endforeach
-
-
-
               </div>
               <div class="px-6 pb-6 mt-6 border-t border-gray-300 dark:border-gray-400 ">
                 <div class="flex flex-wrap items-center mt-6">

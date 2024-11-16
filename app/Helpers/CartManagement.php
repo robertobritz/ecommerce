@@ -21,15 +21,15 @@ class CartManagement {
 
         if($existing_item !== null){
             $cart_items[$existing_item]['quantity'] ++;
-            $cart_items[$existing_item]['total_amout'] = $cart_items[$existing_item]['quantity'] *
+            $cart_items[$existing_item]['total_amount'] = $cart_items[$existing_item]['quantity'] *
             $cart_items[$existing_item]['unit_amount'];
         } else {
-            $product = Product::where('id', $product_id)->first('id', 'name', 'price', 'images');
+            $product = Product::where('id', $product_id)->first(['id', 'name', 'price', 'images']);
             if($product){
                 $cart_items[]=[
                     'product_id' => $product->id,
                     'name' => $product->name,
-                    'image' => $product->images, //tinha indice [0] em images
+                    'image' => $product->images[0], //tinha indice [0] em images
                     'quantity' => 1,
                     'unit_amount' => $product->price,
                     'total_amount' => $product->price,
@@ -56,10 +56,10 @@ class CartManagement {
 
         if($existing_item !== null){
             $cart_items[$existing_item]['quantity'] = $qty;
-            $cart_items[$existing_item]['total_amout'] = $cart_items[$existing_item]['quantity'] *
+            $cart_items[$existing_item]['total_amount'] = $cart_items[$existing_item]['quantity'] *
             $cart_items[$existing_item]['unit_amount'];
         } else {
-            $product = Product::where('id', $product_id)->first('id', 'name', 'price', 'images');
+            $product = Product::where('id', $product_id)->first(['id', 'name', 'price', 'images']);
             if($product){
                 $cart_items[]=[
                     'product_id' => $product->id,
@@ -86,7 +86,7 @@ class CartManagement {
                 //break;
             }
         }
-
+        sleep(1);
         self::addCartItemsToCookie($cart_items);
         return $cart_items;
     }
@@ -111,7 +111,7 @@ class CartManagement {
     }
 
     // icrement item quatity
-    static public function icrementQuatityToCartItem($product_id){
+    static public function icrementQuantityToCartItem($product_id){
         $cart_items = self::getCartItemsFromCookie();
 
         foreach ($cart_items as $key => $item) {
