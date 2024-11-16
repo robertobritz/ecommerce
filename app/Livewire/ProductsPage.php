@@ -42,7 +42,7 @@ class ProductsPage extends Component
     // add product to cart method
     public function addToCart($product_id){
         $total_count = CartManagement::addItemToCart($product_id);
-
+        sleep(1); // Para dar tempo de aparecer adicionando ao carrinho.
         $this->dispatch('update-cart-count', total_count: $total_count)->to(Navbar::class);
 
         $this->alert('success', 'Produdo adicionado no carrinho!',[

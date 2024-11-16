@@ -33,8 +33,8 @@ class ProductDetailPage extends Component
 
     // add product to cart method
     public function addToCart($product_id){
-        $total_count = CartManagement::addItemToCart($product_id);
-
+        $total_count = CartManagement::addItemToCartWithQty($product_id, $this->quantity);
+        sleep(1); // Colocado esse timer para aparecer a mudança no botão "add to cart"
         $this->dispatch('update-cart-count', total_count: $total_count)->to(Navbar::class);
 
         $this->alert('success', 'Produdo adicionado no carrinho!',[
