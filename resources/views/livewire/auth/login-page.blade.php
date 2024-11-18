@@ -17,6 +17,11 @@
 
             <!-- Form -->
             <form wire:submit.prevent='save'>
+                @if (session('error'))
+                    <div class="p-4 mt-2 mb-4 text-sm text-white bg-red-500 rounded-lg" role="alert" tabindex="-1" aria-labelledby="hs-solid-color-danger-label">
+                        {{ session('error') }}
+                    </div>
+                @endif
               <div class="grid gap-y-4">
                 <!-- Form Group -->
                 <div>
