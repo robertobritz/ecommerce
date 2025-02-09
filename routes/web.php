@@ -8,6 +8,7 @@ use App\Livewire\CancelPage;
 use App\Livewire\CartPage;
 use App\Livewire\CategoriesPage;
 use App\Livewire\CheckoutPage;
+use App\Livewire\EditProfile;
 use App\Livewire\HomePage;
 use App\Livewire\MyOrderDetailPage;
 use App\Livewire\MyOrdersPage;
@@ -40,4 +41,6 @@ Route::middleware('auth')->group(function (){
     Route::get('/my-orders/{order_id}', MyOrderDetailPage::class)->name('my-orders.show');
     Route::get('/success', SuccessPage::class)->name('success');
     Route::get('/cancel', CancelPage::class)->name('cancel');
+    // Página de edição de perfil
+    Route::get('/profile/edit', EditProfile::class)->name('profile.edit');
 });

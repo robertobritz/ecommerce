@@ -5,7 +5,7 @@ Obrigado por sua compra!
 O número do seu pedido é: {{ $order->id }}
 
 <x-mail::button :url="$url">
-Ver o pedido
+Ver o pedido no meu perfil
 </x-mail::button>
 
 Obrigado! <br>
