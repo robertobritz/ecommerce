@@ -32,6 +32,15 @@ class ResetPasswordPage extends Component
             'token' => 'required',
             'email' => 'required|email|exists:users,email',
             'password' => 'required|min:8|max:255|confirmed',
+        ], [
+            'token.required' => 'Token inválido',
+            'email.required' => 'O campo e-mail é obrigatório',
+            'email.email' => 'Digite um endereço de e-mail válido',
+            'email.exists' => 'Este e-mail não está cadastrado em nosso sistema',
+            'password.required' => 'O campo senha é obrigatório',
+            'password.min' => 'A senha deve ter no mínimo 8 caracteres',
+            'password.max' => 'A senha não pode ter mais que 255 caracteres',
+            'password.confirmed' => 'A confirmação da senha não corresponde'
         ]);
 
         $status = Password::reset(
@@ -62,11 +71,11 @@ class ResetPasswordPage extends Component
             Auth::login($user);
 
             // Redireciona para a página inicial
-            return redirect('/');
+            return redirect('/')->with('success', 'Senha alterada com sucesso!');
         }
 
         // Caso contrário, retorna mensagem de erro
-        session()->flash('error', 'Algo deu errado ao redefinir a senha.');
+        session()->flash('error', 'Não foi possível redefinir sua senha. Por favor, tente novamente.');
         return null;
     }
 

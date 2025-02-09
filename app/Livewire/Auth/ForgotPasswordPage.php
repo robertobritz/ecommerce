@@ -12,7 +12,11 @@ class ForgotPasswordPage extends Component
     public $email;
     public function save(){
         $this->validate([
-            'email' => 'required|email|exists:users,email'
+            'email' => 'required|email|exists:users,email',
+        ], [
+            'email.required' => 'O campo e-mail é obrigatório',
+            'email.email' => 'Digite um endereço de e-mail válido',
+            'email.exists' => 'Este e-mail não está cadastrado em nosso sistema'
         ]);
 
         $status = Password::sendResetLink(['email' => $this->email]);
@@ -20,7 +24,9 @@ class ForgotPasswordPage extends Component
         if($status == Password::RESET_LINK_SENT) {
             session()->flash('success', 'Link para a recuperação da senha foi enviado ao seu e-mail!');
             $this->email = '';
-        } 
+        } else {
+            session()->flash('error', 'Não foi possível enviar o link de recuperação. Tente novamente mais tarde.');
+        }
     }
     public function render()
     {
