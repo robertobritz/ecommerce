@@ -43,40 +43,43 @@ class OrderResource extends Resource
         return $form
             ->schema([
                 Group::make()->schema([
-                    Section::make('Order Information')->schema([
+                    Section::make('Informações do Pedido')->schema([
                         Select::make('user_id')
-                            ->label('Customer')
+                            ->label('Cliente')
                             ->relationship('user', 'name')
                             ->searchable()
                             ->preload()
                             ->required(),
 
                         Select::make('payment_method')
+                            ->label('Método de Pagamento')
                             ->options([
-                                'stripe' => 'Stripe',
-                                'cod' => 'Cash on Delivery'
+                                'stripe' => 'Cartão de Crédito',
+                                'cod' => 'Pagamento na Entrega'
                             ])
                             ->required(),
 
                         Select::make('payment_status')
+                            ->label('Status do Pagamento')
                             ->options([
-                                    'paid' => 'Paid',
-                                    'pending' => 'Pending',
-                                    'failed' => 'Failed'
+                                'paid' => 'Pago',
+                                'pending' => 'Pendente',
+                                'failed' => 'Falhou'
                             ])
                             ->default('pending')
                             ->required(),
 
                         ToggleButtons::make('status')
+                            ->label('Status')
                             ->inline()
                             ->default('new')
                             ->required()
                             ->options([
-                                'new' => 'New',
-                                'processing' => 'Processing',
-                                'shipped' => 'Shipped',
-                                'delivered' => 'Delivered',
-                                'canceled' => 'Canceled',
+                                'new' => 'Novo',
+                                'processing' => 'Processando',
+                                'shipped' => 'Enviado',
+                                'delivered' => 'Entregue',
+                                'canceled' => 'Cancelado',
                             ])
                             ->colors([
                                 'new' => 'info',
@@ -93,46 +96,51 @@ class OrderResource extends Resource
                                 'canceled' => 'heroicon-m-x-circle',
                             ]),
 
-                            Select::make('currency')
-                                ->options([
-                                    'brl' => 'BRL',
-                                    'usd' => 'USD',
-                                    'eur' => 'EUR',
-                                    'gbp' => 'GBP'
-                                ])
-                                ->default('brl')
-                                ->required(),
+                        Select::make('currency')
+                            ->label('Moeda')
+                            ->options([
+                                'brl' => 'Real',
+                                'usd' => 'Dólar',
+                                'eur' => 'Euro',
+                                'gbp' => 'Libra'
+                            ])
+                            ->default('brl')
+                            ->required(),
 
-                            Select::make('shipping_method')
-                                ->options([
-                                    'ups' => 'UPS',
-                                    'fedex' => 'FedEx',
-                                    'dhl' => 'DHL',
-                                    'other' => 'Other'
-                                ]),
+                        Select::make('shipping_method')
+                            ->label('Método de Envio')
+                            ->options([
+                                'ups' => 'UPS',
+                                'fedex' => 'FedEx',
+                                'dhl' => 'DHL',
+                                'other' => 'Outro'
+                            ]),
 
-                            Textarea::make('notes')
-                                ->columnSpanFull()
+                        Textarea::make('notes')
+                            ->label('Observações')
+                            ->columnSpanFull()
                     ])->columns(2),
 
-                    Section::make('Order Items')->schema([
+                    Section::make('Itens do Pedido')->schema([
                         Repeater::make('items')
+                            ->label('Itens')
                             ->relationship()
                             ->schema([
-
                                 Select::make('product_id')
+                                    ->label('Produto')
                                     ->relationship('product', 'name')
                                     ->searchable()
                                     ->preload()
                                     ->required()
                                     ->distinct()
-                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems() // Desativa a adição de itens iguais aos já selecionados.
+                                    ->disableOptionsWhenSelectedInSiblingRepeaterItems()
                                     ->columnSpan(4)
                                     ->reactive()
                                     ->afterStateUpdated(fn ($state, Set $set) => $set('unit_amount', Product::find($state)?->price ?? 0))
                                     ->afterStateUpdated(fn ($state, Set $set) => $set('total_amount', Product::find($state)?->price ?? 0)),
 
                                 TextInput::make('quantity')
+                                    ->label('Quantidade')
                                     ->numeric()
                                     ->required()
                                     ->default(1)
@@ -142,6 +150,7 @@ class OrderResource extends Resource
                                     ->afterStateUpdated(fn ($state, Set $set, Get $get) => $set('total_amount', $state*$get('unit_amount'))),
 
                                 TextInput::make('unit_amount')
+                                    ->label('Valor Unitário')
                                     ->numeric()
                                     ->required()
                                     ->disabled()
@@ -149,15 +158,15 @@ class OrderResource extends Resource
                                     ->columnSpan(3),
 
                                 TextInput::make('total_amount')
+                                    ->label('Valor Total')
                                     ->numeric()
                                     ->required()
                                     ->dehydrated()
                                     ->columnSpan(3),
-
                             ])->columns(12),
 
                             Placeholder::make('grand_total_placeholder')
-                                ->label('Grande Total')
+                                ->label('Total Geral')
                                 ->content(function (Get $get, Set $set){
                                     $total = 0;
                                     if (!$repeaters = $get('items')){
@@ -169,14 +178,11 @@ class OrderResource extends Resource
                                     }
                                     $set('grand_total', $total);
                                     return Number::currency($total, 'BRL');
-                                    //return $grand_total;
                                 }),
 
                             Hidden::make('grand_total')
-                            ->default(0)
-
+                                ->default(0)
                     ]),
-
                 ])->columnSpanFull()
             ]);
     }
@@ -186,52 +192,60 @@ class OrderResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('user.name')
-                    ->label('Customer')
+                    ->label('Cliente')
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('grand_total')
+                    ->label('Total Geral')
                     ->numeric()
                     ->sortable()
                     ->money('BRL'),
 
                 TextColumn::make('payment_method')
+                    ->label('Método de Pagamento')
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('payment_status')
+                    ->label('Status do Pagamento')
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('currency')
+                    ->label('Moeda')
                     ->sortable()
                     ->searchable(),
 
                 TextColumn::make('shipping_method')
+                    ->label('Método de Envio')
                     ->sortable()
                     ->searchable(),
 
                 SelectColumn::make('status')
+                    ->label('Status')
                     ->options([
-                        'new' => 'New',
-                        'processing' => 'Processing',
-                        'shipped' => 'Shipped',
-                        'delivered' => 'Delivered',
-                        'canceled' => 'Canceled',
+                        'new' => 'Novo',
+                        'processing' => 'Processando',
+                        'shipped' => 'Enviado',
+                        'delivered' => 'Entregue',
+                        'canceled' => 'Cancelado',
                     ])
                     ->searchable()
                     ->sortable(),
 
                 TextColumn::make('created_at')
-                        ->datetime('d/m/Y')
-                        ->sortable()
-                        ->toggleable(isToggledHiddenByDefault: true),
+                    ->label('Criado em')
+                    ->datetime('d/m/Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
 
                 TextColumn::make('updated_at')
-                ->datetime('d/m/Y')
-                ->sortable()
-                ->toggleable(isToggledHiddenByDefault: true),
-    ])
+                    ->label('Atualizado em')
+                    ->datetime('d/m/Y')
+                    ->sortable()
+                    ->toggleable(isToggledHiddenByDefault: true),
+            ])
             ->filters([
                 //
             ])

@@ -44,8 +44,9 @@ class ProductResource extends Resource
         return $form
             ->schema([
                 Group::make()->schema([
-                    Section::make('Product Information')->schema([
+                    Section::make('Informações do Produto')->schema([
                         TextInput::make('name')
+                            ->label('Nome')
                             ->required()
                             ->maxLength(255)
                             ->live(onBlur: true)
@@ -57,21 +58,23 @@ class ProductResource extends Resource
                             }),
 
                         TextInput::make('slug')
-                        ->required()
-                        ->maxLength(255)
-                        ->disabled()
-                        ->dehydrated()
-                        ->unique(Product::class, 'slug', ignoreRecord: true),
+                            ->label('Slug')
+                            ->required()
+                            ->maxLength(255)
+                            ->disabled()
+                            ->dehydrated()
+                            ->unique(Product::class, 'slug', ignoreRecord: true),
 
                         MarkdownEditor::make('description')
-                        ->columnspanFull()
-                        ->fileAttachmentsDIrectory('product')
+                            ->label('Descrição')
+                            ->columnspanFull()
+                            ->fileAttachmentsDIrectory('product')
 
                     ])->columns(2),
 
-                    Section::make('Images')->schema([
+                    Section::make('Imagens')->schema([
                         FileUpload::make('images')
-                            ->label('Image 1')
+                            ->label('Imagem 1')
                             ->multiple()
                             ->directory('products')
                             ->maxFiles(5)
@@ -80,41 +83,48 @@ class ProductResource extends Resource
                 ])->columnSPan(2),
 
                 Group::make()->schema([
-                    Section::make('Price')->schema([
+                    Section::make('Preço')->schema([
                         TextInput::make('price')
+                            ->label('Preço')
                             ->required()
                             ->numeric()
                             ->prefix('R$'),
                     ]),
 
-                    Section::make('Associations')->schema([
+                    Section::make('Associações')->schema([
                         Select::make('category_id')
+                            ->label('Categoria')
                             ->required()
                             ->searchable()
                             ->preload()
-                            ->relationship('category', 'name'), // Relacionamento category na model Products, tornou isso possível
+                            ->relationship('category', 'name'),
 
                         Select::make('brand_id')
-                        ->required()
-                        ->searchable()
-                        ->preload()
-                        ->relationship('brand', 'name'), // Relacionamento brand na model Products, tornou isso possível
+                            ->label('Marca')
+                            ->required()
+                            ->searchable()
+                            ->preload()
+                            ->relationship('brand', 'name'),
                     ]),
 
                     Section::make('Status')->schema([
                         Toggle::make('in_stock')
-                        ->required()
-                        ->default(true),
+                            ->label('Em Estoque')
+                            ->required()
+                            ->default(true),
 
                         Toggle::make('is_active')
-                        ->required()
-                        ->default(true),
+                            ->label('Ativo')
+                            ->required()
+                            ->default(true),
 
                         Toggle::make('is_featured')
-                        ->required(),
+                            ->label('Destaque')
+                            ->required(),
 
                         Toggle::make('on_sale')
-                        ->required()
+                            ->label('Em Promoção')
+                            ->required()
 
                     ])
 
@@ -128,36 +138,46 @@ class ProductResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nome')
                     ->searchable(),
 
                 TextColumn::make('category.name')
+                    ->label('Categoria')
                     ->sortable(),
 
                 TextColumn::make('brand.name')
+                    ->label('Marca')
                     ->sortable(),
 
                 TextColumn::make('price')
+                    ->label('Preço')
                     ->money('BRL')
                     ->sortable(),
 
                 IconColumn::make('is_featured')
+                    ->label('Destaque')
                     ->boolean(),
 
                 IconColumn::make('on_sale')
+                    ->label('Em Promoção')
                     ->boolean(),
 
                 IconColumn::make('in_stock')
+                    ->label('Em Estoque')
                     ->boolean(),
 
                 IconColumn::make('is_active')
+                    ->label('Ativo')
                     ->boolean(),
 
-                TextCOlumn::make('created_at')
+                TextColumn::make('created_at')
+                    ->label('Criado em')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
 
-                TextCOlumn::make('update_at')
+                TextColumn::make('updated_at')
+                    ->label('Atualizado em')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true)

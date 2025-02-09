@@ -40,6 +40,7 @@ class CategoryResource extends Resource
                     Grid::make()
                         ->schema([
                             TextInput::make('name')
+                                ->label('Nome')
                                 ->required()
                                 ->maxLength(255)
                                 ->live(onBlur: true) // Só faz a atualização quando sair do foco
@@ -47,6 +48,7 @@ class CategoryResource extends Resource
                                 === 'create' ? $set('slug', Str::slug($state)): null),
 
                             TextInput::make('slug')
+                                ->label('Slug')
                                 ->required()
                                 ->disabled()
                                 ->maxLength(255)
@@ -54,10 +56,12 @@ class CategoryResource extends Resource
                                 ->unique(Category::class, 'slug', ignoreRecord: true), // Serve para ser único na hora da criação, permitindo a edição do componente.
 
                             FileUpload::make('image')
+                                ->label('Imagem')
                                 ->image()
                                 ->directory('categories'),
 
                             Toggle::make('is_active')
+                                ->label('Ativo')
                                 ->required()
                                 ->default(true),
 
@@ -71,19 +75,25 @@ class CategoryResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('name')
+                    ->label('Nome')
                     ->searchable(),
-                Tables\Columns\ImageColumn::make('image'),
+                Tables\Columns\ImageColumn::make('image')
+                    ->label('Imagem'),
 
                 Tables\Columns\TextColumn::make('slug')
+                    ->label('Slug')
                     ->searchable(),
 
                 Tables\Columns\IconColumn::make('is_active')
+                    ->label('Ativo')
                     ->boolean(),
                 Tables\Columns\TextColumn::make('created_at')
+                    ->label('Criado em')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
                 Tables\Columns\TextColumn::make('updated_at')
+                    ->label('Atualizado em')
                     ->dateTime()
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

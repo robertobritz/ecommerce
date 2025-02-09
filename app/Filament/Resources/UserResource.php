@@ -35,20 +35,22 @@ class UserResource extends Resource
         return $form
             ->schema([
                 TextInput::make('name')
+                    ->label('Nome')
                     ->required(),
 
                 TextInput::make('email')
-                    ->label('E-mail Address')
+                    ->label('E-mail')
                     ->email()
                     ->maxLength(255)
                     ->unique(ignoreRecord: true)
                     ->required(),
 
                 DateTimePicker::make('email_verified_at')
-                    ->label('Email verified at')
+                    ->label('E-mail verificado em')
                     ->default(now()),
 
                 TextInput::make('password')
+                    ->label('Senha')
                     ->password()
                     ->dehydrated(fn ($state) => filled($state))
                     ->required(fn (Page $livewire): bool => $livewire instanceof CreateRecord),
@@ -61,16 +63,20 @@ class UserResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('name')
+                    ->label('Nome')
                     ->searchable(),
 
                 TextColumn::make('email')
+                    ->label('E-mail')
                     ->searchable(),
 
                 TextColumn::make('email_verified_at')
+                    ->label('E-mail verificado em')
                     ->datetime('d/m/Y')
                     ->sortable(),
 
                 TextColumn::make('created_at')
+                    ->label('Criado em')
                     ->datetime('d/m/Y')
                     ->sortable(),
 
