@@ -101,7 +101,7 @@
                         <div class="p-6 bg-white border border-gray-200 rounded-lg shadow-sm">
                             <div class="flex items-center gap-x-2">
                                 <span
-                                    class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">+500</span>
+                                    class="text-3xl font-bold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">+10</span>
                                 <span class="text-cyan-400">
                                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
                                         fill="currentColor">
