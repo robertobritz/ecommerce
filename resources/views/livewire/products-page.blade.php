@@ -174,4 +174,6 @@
             </div>
         </section>
     </div>
+    <!-- Rodapé -->
+    @include('livewire.partials.footer')
 </div>
