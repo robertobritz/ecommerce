@@ -72,8 +72,8 @@
                     <!-- Botões -->
                     <div class="grid w-full gap-3 mt-8 sm:inline-flex">
                         <a class="inline-flex items-center justify-center px-6 py-4 text-base font-medium text-white transition-all duration-200 transform border border-transparent rounded-lg bg-gradient-to-r from-cyan-500 to-blue-600 hover:from-cyan-600 hover:to-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-cyan-500 hover:-translate-y-1"
-                            href="/register">
-                            CONHEÇA AGORA NOSSOS PRODUTOS E SOLUÇÕES
+                            href="/products">
+                            CONHEÇA AGORA NOSSOS PRODUTOS 
                             <svg class="w-5 h-5 ml-2" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
                                 fill="currentColor">
                                 <path fill-rule="evenodd"
